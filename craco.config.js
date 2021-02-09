@@ -16,7 +16,7 @@ const ENV_MAP = {
     outputDirectory: "dist",
   }, // 生产环境
 };
-const ENV_CONFIG = ENV_MAP[process.env.REACT_APP_RUNNING_MODE] || {};
+const ENV_CONFIG = ENV_MAP[process.env.REACT_APP_BUILD_MODE] || {};
 
 module.exports = {
   // ...
