@@ -49,6 +49,10 @@ const Login: React.FC = () => {
     console.log("Received values of form: ", values);
   };
 
+  const handleCustomLogin = () => {
+    console.log("游客登陆");
+  };
+
   return (
     <div className={styles.loginWrapper}>
       <div className={styles.container}>
@@ -78,9 +82,12 @@ const Login: React.FC = () => {
             />
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item className={styles.flexWrapper}>
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
+            </Button>
+            <Button type="primary" onClick={handleCustomLogin} className="login-form-button">
+              游客登陆
             </Button>
           </Form.Item>
         </Form>

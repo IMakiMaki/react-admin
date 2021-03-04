@@ -1,5 +1,6 @@
 /* craco.config.js */
 const RenameBuildDirectoryPlugin = require("./scripts/rename");
+const path = require("path");
 
 /**
  * Custom Environment Variables Map
@@ -21,7 +22,9 @@ const ENV_CONFIG = ENV_MAP[process.env.REACT_APP_BUILD_MODE] || {};
 module.exports = {
   // ...
   webpack: {
-    alias: {},
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
     plugins: [],
     configure: (webpackConfig, { env }) => {
       webpackConfig.output = {
