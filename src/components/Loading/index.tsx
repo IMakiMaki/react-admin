@@ -10,15 +10,16 @@ interface Props {
 
 export const Loading: React.FC<Props> = (props) => {
   switch (props.type) {
-    case "global":
+    case "local":
       return (
-        <div className={styles.globalWrapper}>
+        <div className={styles.localWrapper}>
           <Spin size={props.size}>{props.children}</Spin>
         </div>
       );
     default:
+    case "global":
       return (
-        <div className={styles.localWrapper}>
+        <div className={styles.globalWrapper}>
           <Spin size={props.size}>{props.children}</Spin>
         </div>
       );
