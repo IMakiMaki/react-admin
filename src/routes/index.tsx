@@ -1,29 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, LazyExoticComponent, useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-import { Loading } from "../components/Loading";
-import { Route as RouteInterface } from "./routesConfig";
 
+import { requireModule, Route as RouteInterface } from "@/types/guards";
+import { Loading } from "@/components/Loading";
 const GuardsContext = (require as any).context("./", false, /\.guard\.ts$/);
-const Guards: { default: () => boolean }[] = GuardsContext.keys().map(GuardsContext);
+const Guards: requireModule[] = GuardsContext.keys().map(GuardsContext);
 
+const TestC = React.lazy(() => {
+  return Math.random() > 0.5
+    ? import("@/layout/index")
+    : Promise.resolve({ default: () => <div>123</div> });
+});
 interface Props {
   routesConfig: RouteInterface[];
 }
 
-const GuardsWrapper: React.FC<{ config: RouteInterface }> = ({ config }) => {
+const GuardsWrapper = (config: RouteInterface) => {
   if (!config.guards) {
     // 如果不需要权限 直接返回component
     return <config.component />;
   } else {
-    // 提取需要的guard
-    return null;
+    // // 提取当前路由需要的guard并检测
+    // config.guards
+    //   .map((auth) =>
+    //     Guards.find((guard) => {
+    //       return guard.default.type === auth;
+    //     })
+    //   )
+    //   .map((guard) => guard?.default.check(config));
+    // return React.lazy(() => {
+    //   return import("@/layout/index");
+    // });
+    console.log(
+      React.lazy(() => {
+        return import("@/layout/index");
+      })
+    );
+    return React.lazy(() => {
+      return import("@/layout/index");
+    });
   }
 };
 
 const Routes: React.FC<Props> = (props) => {
   const [routes, setRoutes] = useState(props.routesConfig);
-  console.log(GuardsContext.keys());
-
   useEffect(() => {
     setRoutes(props.routesConfig.filter((item) => item.hidden !== true));
   }, [props.routesConfig]);
@@ -37,7 +57,11 @@ const Routes: React.FC<Props> = (props) => {
               key={index}
               path={config.path}
               exact={!!config.exact}
-              render={() => <GuardsWrapper config={config} />}
+              render={() => (
+                <React.Suspense fallback={null}>
+                  <TestC />
+                </React.Suspense>
+              )}
             ></Route>
           ))}
         </Switch>

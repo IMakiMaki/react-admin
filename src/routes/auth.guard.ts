@@ -1,7 +1,14 @@
-const AuthGuard = (_component?: any): boolean => {
-  return true;
+import { Guard } from "@/types/guards";
+
+const AuthGuard = (_component?: any) => {
+  return new Promise<boolean>((resolve, reject) => reject(false));
 };
 
 export const Auth = Symbol("登陆");
 
-export default AuthGuard;
+const guard: Guard = {
+  type: Auth,
+  check: AuthGuard,
+};
+
+export default guard;

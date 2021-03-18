@@ -1,18 +1,10 @@
 import React from "react";
 
+import { Route } from "@/types/guards";
 import { NotFound } from "../views/notFound";
 import { Auth } from "./auth.guard";
 const Login = React.lazy(() => import("../views/login"));
 const LayoutIndex = React.lazy(() => import("@/layout/index"));
-
-export interface Route {
-  guards?: Symbol[];
-  hidden?: Boolean;
-  path: string;
-  component: React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>;
-  children?: Route[];
-  exact?: Boolean;
-}
 
 // 路由配置
 export const routes: Route[] = [
