@@ -1,17 +1,17 @@
+import React from "react";
+
+type RouteComponent = React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>;
+
 export interface Route {
-  guards?: Symbol[];
-  hidden?: Boolean;
-  path: string;
-  component: React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>;
-  children?: Route[];
-  exact?: Boolean;
+  readonly guards?: Symbol[];
+  readonly hidden?: Boolean;
+  readonly path: string;
+  readonly component: RouteComponent;
+  readonly children?: Route[];
+  readonly exact?: Boolean;
 }
 
 export interface Guard {
-  type: Symbol;
-  check: (route: Route) => Promise<boolean>;
-}
-
-export interface requireModule {
-  default: Guard;
+  readonly type: Symbol;
+  readonly check: (route: Route) => Promise<boolean | RouteComponent>;
 }

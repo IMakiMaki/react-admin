@@ -2,7 +2,7 @@ import React from "react";
 
 import { Route } from "@/types/guards";
 import { NotFound } from "../views/notFound";
-import { Auth } from "./auth.guard";
+import { Auth } from "./guards/auth.guard";
 const Login = React.lazy(() => import("../views/login"));
 const LayoutIndex = React.lazy(() => import("@/layout/index"));
 
@@ -17,7 +17,7 @@ export const routes: Route[] = [
     path: "/index",
     component: LayoutIndex,
     exact: true,
-    guards: [Auth],
+    guards: [],
   },
   {
     path: "*",
