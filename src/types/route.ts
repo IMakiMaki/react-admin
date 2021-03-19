@@ -1,7 +1,8 @@
 import React from "react";
 
-type RouteComponent = React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>;
+export type RouteComponent = React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>;
 
+// 路由类型
 export interface Route {
   readonly guards?: Symbol[];
   readonly hidden?: Boolean;
@@ -11,7 +12,8 @@ export interface Route {
   readonly exact?: Boolean;
 }
 
-export interface Guard {
-  readonly type: Symbol;
-  readonly check: (route: Route) => Promise<boolean | RouteComponent>;
+// 路由守卫类型
+export interface RouteGuard {
+  type: Symbol;
+  check: (route: Route) => Promise<RouteComponent>;
 }

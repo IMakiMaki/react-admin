@@ -1,25 +1,56 @@
 import { requireContextModule } from "@/types/common";
-import { Guard, Route } from "@/types/guards";
+import { Route, RouteComponent, RouteGuard } from "@/types/route";
+import { isReactLazyComponent } from "@/util";
 import React from "react";
+import authGuard from "./auth.guard";
 
-const GuardsContext = (require as any).context("./", false, /\.guard\.ts$/);
-const Guards: requireContextModule<Guard>[] = GuardsContext.keys().map(GuardsContext);
-
-const TestC = React.lazy(() => {
-  return Math.random() > 0.5
-    ? import("@/layout/index")
-    : Promise.resolve({ default: () => <div>123</div> });
-});
+const GuardsContext = (require as any).context("", false, /\.guard\.tsx?$/);
+const Guards: requireContextModule<RouteGuard>[] = GuardsContext.keys().map(GuardsContext);
 
 interface Config extends Route {
   guards: Exclude<Route["guards"], undefined>;
+}
+
+export class Wrapper extends React.Component<{ component: RouteComponent }> {
+  render() {
+    const { component } = this.props;
+    // console.log(component?.$$typeof, component instanceof React.LazyExoticComponent);
+    return (
+      <div style={{ color: "blue" }}>
+        {(() => {
+          console.log();
+          if (isReactLazyComponent(component)) {
+            return (
+              <React.Suspense fallback={<div>Loading...</div>}>
+                <this.props.component />
+              </React.Suspense>
+            );
+          } else {
+            return <this.props.component />;
+          }
+        })()}
+      </div>
+    );
+  }
 }
 
 export const GuardsWrapper = (config: Config) => {
   if (!config.guards.length) {
     return config.component;
   } else {
-    return config.component;
+    return React.lazy(async () => {
+      // return Math.random() > 0.5
+      //   ? import("@/layout/index")
+      //   : Promise.resolve({ default: () => <div>123</div> });
+      const component = await Guards.find((guard) => {
+        return guard.default.type === authGuard.type;
+      })
+        ?.default.check(config)
+        .then((routeComponent) => {
+          return <Wrapper component={routeComponent}></Wrapper>;
+        });
+      return Promise.resolve({ default: () => (component ? component : null) });
+    });
   }
   // if (!config.guards.length) {
   //   return import("@/layout/index");

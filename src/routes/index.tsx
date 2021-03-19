@@ -1,15 +1,9 @@
+import { Loading } from "@/components/Loading";
+import { Route as RouteInterface } from "@/types/route";
 import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-
-import { Route as RouteInterface } from "@/types/guards";
-import { Loading } from "@/components/Loading";
 import { GuardsWrapper } from "./guards";
 
-const TestC = React.lazy(() => {
-  return Math.random() > 0.5
-    ? import("@/layout/index")
-    : Promise.resolve({ default: () => <div>123</div> });
-});
 interface Props {
   routesConfig: RouteInterface[];
 }
