@@ -2,6 +2,7 @@ import { Route } from "@/types/route";
 import React from "react";
 import { NotFound } from "../views/notFound";
 import AuthGuard from "./guards/auth.guard";
+import randomGuard from "./guards/random.guard";
 
 const Login = React.lazy(() => import("../views/login"));
 const LayoutIndex = React.lazy(() => import("@/layout/index"));
@@ -17,7 +18,7 @@ export const routes: Route[] = [
     path: "/index",
     component: LayoutIndex,
     exact: true,
-    guards: [AuthGuard.type],
+    guards: [AuthGuard.type, randomGuard.type],
   },
   {
     path: "*",

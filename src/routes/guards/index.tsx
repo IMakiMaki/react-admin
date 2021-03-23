@@ -46,27 +46,28 @@ export const GuardsWrapper = (config: Config) => {
         */
         const GuardsResList = res.filter((res) => res !== undefined);
         const CalcGuardsRes = GuardsResList.reduce<{
-          passFlag: boolean;
+          passFlag: boolean[];
           component: Array<RouteGuard["stayBack"] | RouteGuard["allClear"]>;
         }>(
           (result, guardRes) => {
             return {
-              passFlag: guardRes?.pass || false,
+              passFlag: [...result.passFlag, guardRes?.pass || false],
               component: [
                 ...result.component,
                 guardRes?.pass ? guardRes.allClear : guardRes?.stayBack,
               ],
             };
           },
-          { passFlag: true, component: [] }
+          { passFlag: [], component: [] }
         );
-        if (CalcGuardsRes.passFlag) {
+        if (CalcGuardsRes.passFlag.every((flag) => flag === true)) {
           const component = CalcGuardsRes.component[CalcGuardsRes.component.length - 1];
           return Promise.resolve({
             default: () => <RenderRoute component={component || config.component} />,
           });
         } else {
-          const component = CalcGuardsRes.component[0];
+          const failIndex = CalcGuardsRes.passFlag.findIndex((flag) => flag === false);
+          const component = CalcGuardsRes.component[failIndex];
           return Promise.resolve({
             default: () => <RenderRoute component={component || config.component} />,
           });

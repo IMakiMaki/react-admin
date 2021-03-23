@@ -24,8 +24,10 @@ class AuthGuard extends Singleton implements RouteGuard {
   check(route: Route) {
     return new Promise<CheckPromiseBack>((resolve) => {
       if (Math.random() > 0.5) {
+        console.log("auth pass");
         resolve({ pass: true });
       } else {
+        console.log("auth fail");
         resolve({ pass: false, stayBack: this.stayBack });
       }
     });

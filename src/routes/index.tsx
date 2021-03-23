@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Routes: React.FC<Props> = (props) => {
-  const [routes, setRoutes] = useState(props.routesConfig);
+  const [routes, setRoutes] = useState<RouteInterface[]>([]);
   useEffect(() => {
     setRoutes(props.routesConfig.filter((item) => item.hidden !== true));
   }, [props.routesConfig]);
