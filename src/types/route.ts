@@ -12,8 +12,16 @@ export interface Route {
   readonly exact?: Boolean;
 }
 
-// 路由守卫类型
+/**
+ *  路由守卫的接口定义
+ */
 export interface RouteGuard {
   type: Symbol;
-  check: (route: Route) => Promise<RouteComponent>;
+  allClear?: RouteComponent;
+  stayBack: RouteComponent;
+  check: (route: Route) => Promise<CheckPromiseBack>;
 }
+
+export type CheckPromiseBack =
+  | { pass: false; stayBack: RouteGuard["stayBack"] }
+  | { pass: true; allClear?: RouteGuard["allClear"] };

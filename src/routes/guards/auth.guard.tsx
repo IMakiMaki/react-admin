@@ -1,21 +1,32 @@
-import { Route, RouteComponent, RouteGuard } from "@/types/route";
+import { CheckPromiseBack, Route, RouteComponent, RouteGuard } from "@/types/route";
 import { doesUserHaveJWT } from "@/util/permissions";
 import { Singleton } from "@/util/singleton";
 import { useState } from "react";
 
 const AuthGuardComponent = () => {
   const [state, setState] = useState("没有权限啊");
-  return <div onClick={() => setState("没有权限????")}>{state}</div>;
+  return (
+    <div
+      onClick={() =>
+        setState((prev) => {
+          return prev + "oo";
+        })
+      }
+    >
+      {state}
+    </div>
+  );
 };
 
 class AuthGuard extends Singleton implements RouteGuard {
-  type = Symbol("登陆");
+  stayBack = AuthGuardComponent;
+  type = Symbol("LOGIN");
   check(route: Route) {
-    return new Promise<RouteComponent>((resolve) => {
+    return new Promise<CheckPromiseBack>((resolve) => {
       if (Math.random() > 0.5) {
-        resolve(route.component);
+        resolve({ pass: true });
       } else {
-        resolve(AuthGuardComponent);
+        resolve({ pass: false, stayBack: this.stayBack });
       }
     });
   }
