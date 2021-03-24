@@ -1,21 +1,77 @@
 .loginWrapper {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  .container:not(:last-child) {
-    margin-right: 20px;
-    &.active {
-      background-color: aquamarine;
+  .container {
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+    align-items: center;
+    .leftContent {
+      height: 620px;
+      width: 815px;
+      background: url("../../assets/login_bg.gif") left top no-repeat;
+      background-size: 853px 539px;
+      background-position: 0 127px;
+      .topText {
+        font-size: 36px;
+        font-weight: 700;
+        color: #43484e;
+      }
+      .bottomText {
+        font-size: 36px;
+        color: #43484e;
+      }
+    }
+    .formWrap {
+      box-sizing: border-box;
+      padding: 24px 12px 32px;
+      width: 354px;
+      min-height: 387px;
+      border-top: 3px solid #296bef;
+      background-color: #fff;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 8px 26px 3px rgba(63, 63, 63, 0.4);
     }
   }
-  .flexWrapper {
+}
+
+.formItem {
+  .title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #2e3033;
+  }
+  .noErrBorder {
+    position: relative;
+    &::after {
+      position: absolute;
+      content: "";
+      top: 34px;
+      left: 30px;
+      width: calc(100% - 30px);
+      height: 1px;
+      background: #ebeef5;
+    }
     :global {
-      .ant-form-item-control-input-content {
-        display: flex;
-        justify-content: space-between;
+      .ant-input:focus,
+      .ant-input-affix-wrapper:hover,
+      .ant-input-affix-wrapper,
+      .ant-input-affix-wrapper:focus {
+        border: none;
+        box-shadow: none;
+      }
+      .ant-form-item-control-input {
+        margin-bottom: 4px;
+      }
+      .ant-form-item-explain {
+        margin: 0 30px 0;
+        font-size: 12px;
+        font-weight: normal;
       }
     }
   }
+}
+
+.verifyCode {
+}
+
+:global {
 }

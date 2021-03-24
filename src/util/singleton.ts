@@ -1,3 +1,6 @@
+/**
+ * 单例类
+ */
 export class Singleton {
   private static _instance: any;
   public static getSingletonInstance<T>(...params: unknown[]): T {

@@ -28,3 +28,9 @@ yarn-error.log*
 # vscode
 .history
 .vscode
+
+# all picture
+/src/**/*.png
+/src/**/*.gif
+/src/**/*.jpg
+/src/**/*.jpeg

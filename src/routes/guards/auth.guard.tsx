@@ -1,4 +1,4 @@
-import { CheckPromiseBack, Route, RouteComponent, RouteGuard } from "@/types/route";
+import { CheckPromiseBack, Route, RouteGuard } from "@/types/route";
 import { doesUserHaveJWT } from "@/util/permissions";
 import { Singleton } from "@/util/singleton";
 import { useState } from "react";
@@ -23,11 +23,9 @@ class AuthGuard extends Singleton implements RouteGuard {
   type = Symbol("LOGIN");
   check(route: Route) {
     return new Promise<CheckPromiseBack>((resolve) => {
-      if (Math.random() > 0.5) {
-        console.log("auth pass");
+      if (doesUserHaveJWT()) {
         resolve({ pass: true });
       } else {
-        console.log("auth fail");
         resolve({ pass: false, stayBack: this.stayBack });
       }
     });
