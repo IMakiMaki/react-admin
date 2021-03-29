@@ -1,13 +1,13 @@
-import { requireContextModule } from "@/types/common";
-import { Route, RouteComponent, RouteGuard } from "@/types/route";
-import { isReactLazyComponent } from "@/util";
-import React, { useMemo } from "react";
+import { requireContextModule } from '@/types/common';
+import { Route, RouteComponent, RouteGuard } from '@/types/route';
+import { isReactLazyComponent } from '@/util';
+import React, { useMemo } from 'react';
 
-const GuardsContext = (require as any).context("", false, /\.guard\.tsx?$/);
+const GuardsContext = (require as any).context('', false, /\.guard\.tsx?$/);
 const Guards: requireContextModule<RouteGuard>[] = GuardsContext.keys().map(GuardsContext);
 
 interface Config extends Route {
-  guards: Exclude<Route["guards"], undefined>;
+  guards: Exclude<Route['guards'], undefined>;
 }
 
 export const RenderRoute: React.FC<{ component: RouteComponent }> = (props) => {
@@ -47,7 +47,7 @@ export const GuardsWrapper = (config: Config) => {
         const GuardsResList = res.filter((res) => res !== undefined);
         const CalcGuardsRes = GuardsResList.reduce<{
           passFlag: boolean[];
-          component: Array<RouteGuard["stayBack"] | RouteGuard["allClear"]>;
+          component: Array<RouteGuard['stayBack'] | RouteGuard['allClear']>;
         }>(
           (result, guardRes) => {
             return {

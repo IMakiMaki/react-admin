@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export type RouteComponent = React.LazyExoticComponent<React.FC<{}>> | React.FC<{}>;
 
@@ -23,5 +23,5 @@ export interface RouteGuard {
 }
 
 export type CheckPromiseBack =
-  | { pass: false; stayBack: RouteGuard["stayBack"] }
-  | { pass: true; allClear?: RouteGuard["allClear"] };
+  | { pass: false; stayBack: RouteGuard['stayBack'] }
+  | { pass: true; allClear?: RouteGuard['allClear'] };

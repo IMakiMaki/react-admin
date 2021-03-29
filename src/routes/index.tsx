@@ -1,8 +1,8 @@
-import { Loading } from "@/components/Loading";
-import { Route as RouteInterface } from "@/types/route";
-import React, { useEffect, useState } from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
-import { GuardsWrapper } from "./guards";
+import { Loading } from '@/components/Loading';
+import { Route as RouteInterface } from '@/types/route';
+import React, { useEffect, useState } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import { GuardsWrapper } from './guards';
 
 interface Props {
   routesConfig: RouteInterface[];
@@ -24,7 +24,7 @@ const Routes: React.FC<Props> = (props) => {
               path={config.path}
               exact={!!config.exact}
               render={() => {
-                if (typeof config.guards !== "undefined") {
+                if (typeof config.guards !== 'undefined') {
                   const Component = GuardsWrapper({ ...config, guards: config.guards });
                   return <Component />;
                 } else {

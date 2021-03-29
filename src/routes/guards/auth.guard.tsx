@@ -1,15 +1,15 @@
-import { CheckPromiseBack, Route, RouteGuard } from "@/types/route";
-import { doesUserHaveJWT } from "@/util/permissions";
-import { Singleton } from "@/util/singleton";
-import { useState } from "react";
+import { CheckPromiseBack, Route, RouteGuard } from '@/types/route';
+import { doesUserHaveJWT } from '@/util/permissions';
+import { Singleton } from '@/util/singleton';
+import { useState } from 'react';
 
 const AuthGuardComponent = () => {
-  const [state, setState] = useState("没有权限啊");
+  const [state, setState] = useState('没有权限啊');
   return (
     <div
       onClick={() =>
         setState((prev) => {
-          return prev + "oo";
+          return prev + 'oo';
         })
       }
     >
@@ -20,7 +20,7 @@ const AuthGuardComponent = () => {
 
 class AuthGuard extends Singleton implements RouteGuard {
   stayBack = AuthGuardComponent;
-  type = Symbol("LOGIN");
+  type = Symbol('LOGIN');
   check(route: Route) {
     return new Promise<CheckPromiseBack>((resolve) => {
       if (doesUserHaveJWT()) {

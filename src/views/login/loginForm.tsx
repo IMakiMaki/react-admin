@@ -1,10 +1,9 @@
-import UserService from "@/api/user";
-import { VerifyCode } from "@/components/VerifyCode";
-import { CheckCircleOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Form, Input, Checkbox, Button } from "antd";
-import { ValidateErrorEntity } from "rc-field-form/lib/interface";
-import React, { useEffect, useState } from "react";
-import styles from "./index.module.scss";
+import { VerifyCode } from '@/components/VerifyCode';
+import { CheckCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
+import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import React, { useState } from 'react';
+import styles from './index.module.scss';
 
 interface LoginParams {
   userName: string;
@@ -13,9 +12,9 @@ interface LoginParams {
 }
 
 const INIT_VALUES: LoginParams = {
-  userName: "",
-  passWord: "",
-  imgCode: "",
+  userName: '',
+  passWord: '',
+  imgCode: '',
 };
 
 export const LoginForm: React.FC = () => {
@@ -23,11 +22,11 @@ export const LoginForm: React.FC = () => {
   const [userName, setUserName] = useState(INIT_VALUES.userName);
 
   const onFinish = (values: LoginParams) => {
-    console.log("Success:", values);
+    console.log('Success:', values);
   };
 
   const onFinishFailed = (errorInfo: ValidateErrorEntity<LoginParams>) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   const onValuesChange = (changedValues: any, values: LoginParams) => {
@@ -49,7 +48,7 @@ export const LoginForm: React.FC = () => {
         <Form.Item
           className={styles.noErrBorder}
           name="userName"
-          rules={[{ required: true, message: "请输入手机号或邮箱" }]}
+          rules={[{ required: true, message: '请输入手机号或邮箱' }]}
         >
           <Input placeholder="请输入手机号或邮箱" bordered={false} prefix={<UserOutlined />} />
         </Form.Item>
@@ -57,7 +56,7 @@ export const LoginForm: React.FC = () => {
         <Form.Item
           className={styles.noErrBorder}
           name="passWord"
-          rules={[{ required: true, message: "请输入密码" }]}
+          rules={[{ required: true, message: '请输入密码' }]}
         >
           <Input.Password
             placeholder="请输入密码"
@@ -69,7 +68,7 @@ export const LoginForm: React.FC = () => {
 
         <Form.Item
           className={styles.noErrBorder}
-          rules={[{ required: true, message: "请输入验证码" }]}
+          rules={[{ required: true, message: '请输入验证码' }]}
         >
           <Form.Item name="imgCode" noStyle>
             <Input

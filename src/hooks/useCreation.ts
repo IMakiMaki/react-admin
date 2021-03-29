@@ -1,5 +1,5 @@
 // https://github.com/alibaba/hooks/blob/43088bb9a3fa6448b14cce7a5e6ebfe2ef3a8d4c/packages/hooks/src/useCreation/index.ts#L3
-import { useRef } from "react";
+import { useRef } from 'react';
 
 export default function useCreation<T>(factory: () => T, deps: any[]) {
   const { current } = useRef({

@@ -1,8 +1,8 @@
-import React from "react";
-import "./App.css";
-import { Loading } from "./components/Loading";
-import Routes from "./routes";
-import { routes } from "./routes/routesConfig";
+import React from 'react';
+import './App.css';
+import { Loading } from './components/Loading';
+import Routes from './routes';
+import { routes } from './routes/routesConfig';
 
 function App() {
   return (

@@ -1,7 +1,7 @@
-import { Fn } from "@/types/common";
-import { RouteComponent } from "@/types/route";
+import { Fn } from '@/types/common';
+import { RouteComponent } from '@/types/route';
 
-const PREFIX = "REACT_ADMIN";
+const PREFIX = 'REACT_ADMIN';
 const TOKEN_KEY = `${PREFIX}_TOKEN`;
 
 export const setToken = (token: string) => {
@@ -14,13 +14,13 @@ export const getToken = () => {
 
 // 判断是否为React.lazy加载的组件
 export const isReactLazyComponent = (component: RouteComponent) => {
-  return Object.keys(component).some((key) => key === "$$typeof");
+  return Object.keys(component).some((key) => key === '$$typeof');
 };
 
 // 防抖
 export const debounce = <T extends Fn>(delay: number, callback: T) => {
   let timer: number | null = null;
-  if (typeof delay !== "number") {
+  if (typeof delay !== 'number') {
     callback = delay;
     delay = 1000;
   }

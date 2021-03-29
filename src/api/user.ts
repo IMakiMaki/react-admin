@@ -1,7 +1,7 @@
-import { DtoVerifyCode } from "./dto/user.dto";
-import { RequestBase } from "./base";
+import { DtoVerifyCode } from './dto/user.dto';
+import { RequestBase } from './base';
 
-const PREFIX = "/user";
+const PREFIX = '/user';
 
 class UserService extends RequestBase {
   constructor() {
@@ -11,9 +11,9 @@ class UserService extends RequestBase {
   getVerifyCodeImg(data: DtoVerifyCode) {
     return this.reqBase.request({
       url: `/authImage`,
-      method: "GET",
+      method: 'GET',
       params: data,
-      responseType: "arraybuffer",
+      responseType: 'arraybuffer',
     });
   }
 }

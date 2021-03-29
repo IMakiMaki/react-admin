@@ -16,9 +16,12 @@
     "antd": "^4.14.0",
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "mkdirp": "^1.0.4",
     "ncp": "^2.0.0",
     "node-sass": "^5.0.0",
+    "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -31,12 +34,17 @@
     "start": "cross-env REACT_APP_BUILD_MODE=dev craco start",
     "build": "cross-env REACT_APP_BUILD_MODE=prod craco build",
     "pre": "cross-env REACT_APP_BUILD_MODE=pre craco build",
+    "lint": "eslint --ext .tsx,.ts src/ --fix",
     "test": "craco test"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier"
     ]
   },
   "browserslist": {
