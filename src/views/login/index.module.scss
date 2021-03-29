@@ -22,9 +22,9 @@
     }
     .formWrap {
       box-sizing: border-box;
-      padding: 24px 12px 32px;
+      padding: 24px 12px 24px;
       width: 354px;
-      min-height: 387px;
+      min-height: 327px;
       border-top: 3px solid #296bef;
       background-color: #fff;
       border-radius: 0 0 10px 10px;
@@ -35,6 +35,7 @@
 
 .formItem {
   .title {
+    margin-bottom: 25px;
     font-weight: 700;
     font-size: 20px;
     color: #2e3033;
@@ -70,7 +71,14 @@
   }
 }
 
-.verifyCode {
+.codeInput {
+}
+
+.verifyCodeWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // margin-bottom: 10px;
 }
 
 :global {

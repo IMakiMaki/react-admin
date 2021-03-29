@@ -12,7 +12,7 @@ class UserService extends RequestBase {
     return this.reqBase.request({
       url: `/authImage`,
       method: "GET",
-      data,
+      params: data,
       responseType: "arraybuffer",
     });
   }

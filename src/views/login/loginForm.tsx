@@ -1,50 +1,54 @@
 import UserService from "@/api/user";
+import { VerifyCode } from "@/components/VerifyCode";
 import { CheckCircleOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Form, Input, Checkbox, Button } from "antd";
+import { ValidateErrorEntity } from "rc-field-form/lib/interface";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
-const VerifyCode: React.FC = () => {
-  const [img, setImg] = useState("");
-  useEffect(() => {
-    UserService.getVerifyCodeImg({ userName: "21312", t: 123132 }).then((res) => {
-      setImg(
-        `data:image/png;base64,${btoa(
-          new Uint8Array(res as any).reduce((data, byte) => data + String.fromCharCode(byte), "")
-        )}`
-      );
-    });
-  }, []);
-  return (
-    <div className={styles.verifyCode}>
-      <img src={img} alt="" />
-    </div>
-  );
+interface LoginParams {
+  userName: string;
+  passWord: string;
+  imgCode: string;
+}
+
+const INIT_VALUES: LoginParams = {
+  userName: "",
+  passWord: "",
+  imgCode: "",
 };
 
-function LoginForm() {
-  const onFinish = (values: any) => {
+export const LoginForm: React.FC = () => {
+  const [form] = Form.useForm<LoginParams>();
+  const [userName, setUserName] = useState(INIT_VALUES.userName);
+
+  const onFinish = (values: LoginParams) => {
     console.log("Success:", values);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: ValidateErrorEntity<LoginParams>) => {
     console.log("Failed:", errorInfo);
   };
+
+  const onValuesChange = (changedValues: any, values: LoginParams) => {
+    setUserName(values.userName);
+  };
+
   return (
     <div className={`${styles.loginForm} ${styles.formItem}`}>
-      <div className={styles.title} style={{ marginBottom: "36px" }}>
-        欢迎登录投放管理平台
-      </div>
+      <div className={styles.title}>欢迎登录投放管理平台</div>
       <Form
+        form={form}
         name="basic"
-        initialValues={{}}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        initialValues={INIT_VALUES}
+        onFinish={(values) => onFinish(values)}
+        onFinishFailed={(errorInfo) => onFinishFailed(errorInfo)}
         requiredMark={false}
+        onValuesChange={(changedValues, values) => onValuesChange(changedValues, values)}
       >
         <Form.Item
           className={styles.noErrBorder}
-          name="username"
+          name="userName"
           rules={[{ required: true, message: "请输入手机号或邮箱" }]}
         >
           <Input placeholder="请输入手机号或邮箱" bordered={false} prefix={<UserOutlined />} />
@@ -52,7 +56,7 @@ function LoginForm() {
 
         <Form.Item
           className={styles.noErrBorder}
-          name="password"
+          name="passWord"
           rules={[{ required: true, message: "请输入密码" }]}
         >
           <Input.Password
@@ -65,30 +69,28 @@ function LoginForm() {
 
         <Form.Item
           className={styles.noErrBorder}
-          name="validCode"
           rules={[{ required: true, message: "请输入验证码" }]}
         >
-          <Input
-            placeholder="请输入验证码"
-            suffix={<VerifyCode />}
-            prefix={<CheckCircleOutlined />}
-            bordered={false}
-          />
-        </Form.Item>
-        <Form.Item>
-          <div style={{ display: "flex", justifyContent: "space-between", paddingLeft: "30px" }}>
-            <a href="./">免费注册</a>
-            <a href="./">忘记密码？</a>
+          <Form.Item name="imgCode" noStyle>
+            <Input
+              style={{ width: 200 }}
+              placeholder="请输入验证码"
+              prefix={<CheckCircleOutlined />}
+              bordered={false}
+            />
+          </Form.Item>
+          <div className={styles.verifyCodeWrapper}>
+            <VerifyCode userName={userName} />
           </div>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button block type="primary" htmlType="submit">
+            登录
           </Button>
         </Form.Item>
       </Form>
     </div>
   );
-}
+};
 
 export default LoginForm;
