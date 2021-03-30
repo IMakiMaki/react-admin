@@ -18,7 +18,7 @@ export class RequestBase extends Singleton {
       (config) => {
         const token = getToken();
         if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
+          config.headers['token'] = `${token}`;
         }
         return config;
       },
@@ -38,15 +38,36 @@ export class RequestBase extends Singleton {
         console.log(res);
         console.groupEnd();
         // 服务端错误
-        if (res.statusCode && res.errorResponse) {
+        if (res.code && res.code !== '2000') {
           // 登录超时
-          if (res.statusCode === '401') {
-            // 重新登录
-            console.error('登陆超时');
+          if (res.code === '4001') {
+            console.error('登陆error');
+            // haveWarnedLoginExpired = true;
+            // // 重新登录
+            // MessageBox.confirm('登录超时，请重新登录', '', {
+            //   confirmButtonText: '重新登录',
+            //   cancelButtonText: '取消',
+            //   type: 'warning',
+            // })
+            //   .then(() => {
+            //     clearStorage();
+            //     location.reload();
+            //     // console.log('重新登录');
+            //   })
+            //   .catch(() => {
+            //     haveWarnedLoginExpired = false;
+            //   });
           }
+
+          // Message({
+          //   message: res.message || 'Error',
+          //   type: 'error',
+          //   duration: 5 * 1000,
+          //   showClose: true,
+          // });
           return Promise.reject(new Error(res.message || 'Error'));
         } else {
-          return res;
+          return response;
         }
       },
       (error) => {

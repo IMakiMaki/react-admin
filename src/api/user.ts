@@ -1,21 +1,32 @@
-import { DtoVerifyCode } from './dto/user.dto';
+import { DtoLogin, DtoLoginSuccess, DtoVerifyCode } from './dto/user.dto';
 import { RequestBase } from './base';
+import { DtoSuccessResponse } from './dto/common.dto';
 
 const PREFIX = '/user';
 
-class UserService extends RequestBase {
+class UserServiceClass extends RequestBase {
   constructor() {
     super({ prefix: PREFIX });
   }
 
-  getVerifyCodeImg(data: DtoVerifyCode) {
-    return this.reqBase.request({
+  authImage(data: DtoVerifyCode) {
+    return this.reqBase.request<ArrayBuffer>({
       url: `/authImage`,
       method: 'GET',
       params: data,
       responseType: 'arraybuffer',
     });
   }
+
+  login(data: DtoLogin) {
+    return this.reqBase.request<DtoSuccessResponse<DtoLoginSuccess>>({
+      url: '/login',
+      method: 'POST',
+      params: { ...data },
+    });
+  }
 }
 
-export default UserService.getSingletonInstance<UserService>();
+const UserService = UserServiceClass.getSingletonInstance<UserServiceClass>();
+
+export { UserService };

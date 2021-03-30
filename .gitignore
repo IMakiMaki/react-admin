@@ -34,3 +34,6 @@ yarn-error.log*
 /src/**/*.gif
 /src/**/*.jpg
 /src/**/*.jpeg
+
+# about company service dto
+/src/**/*/*.dto.ts

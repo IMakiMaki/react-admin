@@ -1,3 +1,4 @@
+import { UserService } from '@/api/user';
 import { VerifyCode } from '@/components/VerifyCode';
 import { CheckCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
@@ -22,7 +23,12 @@ export const LoginForm: React.FC = () => {
   const [userName, setUserName] = useState(INIT_VALUES.userName);
 
   const onFinish = (values: LoginParams) => {
-    console.log('Success:', values);
+    UserService.login({
+      ...values,
+      accountType: '0',
+    }).then((res) => {
+      console.log(res);
+    });
   };
 
   const onFinishFailed = (errorInfo: ValidateErrorEntity<LoginParams>) => {
