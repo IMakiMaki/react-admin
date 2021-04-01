@@ -11,7 +11,7 @@ export const VerifyCode: React.FC<{ width?: number; height?: number; userName: s
     UserService.authImage({ userName: props.userName, t: Date.now() }).then((res) => {
       setImg(
         `data:image/png;base64,${btoa(
-          new Uint8Array(res.data).reduce((data_2, byte) => data_2 + String.fromCharCode(byte), '')
+          new Uint8Array(res).reduce((data_2, byte) => data_2 + String.fromCharCode(byte), '')
         )}`
       );
     });

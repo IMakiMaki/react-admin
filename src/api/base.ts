@@ -1,11 +1,12 @@
 import { ServiceConstructorConfig } from '@/types/service';
 import { Singleton } from '@/util/singleton';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { getToken } from '../util';
+import { DtoSuccessResponse } from './dto/common.dto';
 export class RequestBase extends Singleton {
   // create an axios instance
   private readonly baseURL = process.env.REACT_APP_API_BASE_URL;
-  protected reqBase;
+  private reqBase;
 
   protected constructor(config: ServiceConstructorConfig) {
     super();
@@ -67,7 +68,7 @@ export class RequestBase extends Singleton {
           // });
           return Promise.reject(new Error(res.message || 'Error'));
         } else {
-          return response;
+          return res;
         }
       },
       (error) => {
@@ -75,5 +76,17 @@ export class RequestBase extends Singleton {
         return Promise.reject(error);
       }
     );
+  }
+  request<T = any, R = DtoSuccessResponse<T>>(params: AxiosRequestConfig) {
+    return new Promise<R>((resolve, reject) => {
+      this.reqBase
+        .request(params)
+        .then((res) => {
+          resolve((res as unknown) as R);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 }

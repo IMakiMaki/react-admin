@@ -1,6 +1,5 @@
-import { DtoLogin, DtoLoginSuccess, DtoVerifyCode } from './dto/user.dto';
 import { RequestBase } from './base';
-import { DtoSuccessResponse } from './dto/common.dto';
+import { DtoLogin, DtoLoginSuccess, DtoVerifyCode } from './dto/user.dto';
 
 const PREFIX = '/user';
 
@@ -10,7 +9,7 @@ class UserServiceClass extends RequestBase {
   }
 
   authImage(data: DtoVerifyCode) {
-    return this.reqBase.request<ArrayBuffer>({
+    return this.request<any, ArrayBuffer>({
       url: `/authImage`,
       method: 'GET',
       params: data,
@@ -19,7 +18,7 @@ class UserServiceClass extends RequestBase {
   }
 
   login(data: DtoLogin) {
-    return this.reqBase.request<DtoSuccessResponse<DtoLoginSuccess>>({
+    return this.request<DtoLoginSuccess>({
       url: '/login',
       method: 'POST',
       params: { ...data },
