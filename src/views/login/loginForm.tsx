@@ -1,5 +1,6 @@
 import { UserService } from '@/api/user';
 import { VerifyCode } from '@/components/VerifyCode';
+import useEventEmitter, { useEventEmitterMy } from '@/hooks/useEventEmittter';
 import { CheckCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -26,15 +27,33 @@ export const LoginForm: React.FC = () => {
     UserService.login({
       ...values,
       accountType: '0',
-    }).then((res) => {
-      console.log(res);
-    });
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(() => {
+        form.setFieldsValue({ imgCode: '' });
+      });
   };
 
+  const input$ = useEventEmitter<string>();
+
   const onFinishFailed = (errorInfo: ValidateErrorEntity<LoginParams>) => {
+    input$.emit('123');
     console.log('Failed:', errorInfo);
   };
 
+  input$.useSubscription((data) => {
+    console.log(data, 'listen');
+  });
+
+  input$.useSubscription((data) => {
+    console.log(data, 'listen2');
+  });
+
+  input$.useSubscription((data) => {
+    console.log(data, 'listen3');
+  });
   const onValuesChange = (changedValues: any, values: LoginParams) => {
     setUserName(values.userName);
   };

@@ -1,5 +1,6 @@
 import { ServiceConstructorConfig } from '@/types/service';
 import { Singleton } from '@/util/singleton';
+import { message } from 'antd';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getToken } from '../util';
 import { DtoSuccessResponse } from './dto/common.dto';
@@ -77,6 +78,7 @@ export class RequestBase extends Singleton {
       }
     );
   }
+  // 封装一层的原因主要是为了减少包裹 DtoSuccessResponse 的样本代码
   request<T = any, R = DtoSuccessResponse<T>>(params: AxiosRequestConfig) {
     return new Promise<R>((resolve, reject) => {
       this.reqBase
@@ -85,6 +87,10 @@ export class RequestBase extends Singleton {
           resolve((res as unknown) as R);
         })
         .catch((err) => {
+          console.log(typeof err.message);
+          if (typeof err.message === 'string') {
+            message.error(err.message);
+          }
           reject(err);
         });
     });
