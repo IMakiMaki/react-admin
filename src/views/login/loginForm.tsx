@@ -1,6 +1,6 @@
 import { UserService } from '@/api/user';
 import { VerifyCode } from '@/components/VerifyCode';
-import useEventEmitter, { useEventEmitterMy } from '@/hooks/useEventEmittter';
+import { useEventEmitter } from '@/hooks/useEventEmittter';
 import { CheckCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -32,28 +32,20 @@ export const LoginForm: React.FC = () => {
         console.log(res);
       })
       .catch(() => {
+        verifyCode$.emit('reload VerifyCode');
         form.setFieldsValue({ imgCode: '' });
       });
   };
 
-  const input$ = useEventEmitter<string>();
+  const verifyCode$ = useEventEmitter<string>();
+  verifyCode$.useSubscription(() => {
+    console.log('check');
+  });
 
   const onFinishFailed = (errorInfo: ValidateErrorEntity<LoginParams>) => {
-    input$.emit('123');
     console.log('Failed:', errorInfo);
   };
 
-  input$.useSubscription((data) => {
-    console.log(data, 'listen');
-  });
-
-  input$.useSubscription((data) => {
-    console.log(data, 'listen2');
-  });
-
-  input$.useSubscription((data) => {
-    console.log(data, 'listen3');
-  });
   const onValuesChange = (changedValues: any, values: LoginParams) => {
     setUserName(values.userName);
   };
@@ -104,7 +96,7 @@ export const LoginForm: React.FC = () => {
             />
           </Form.Item>
           <div className={styles.verifyCodeWrapper}>
-            <VerifyCode userName={userName} />
+            <VerifyCode eventEmitter={verifyCode$} userName={userName} />
           </div>
         </Form.Item>
         <Form.Item>
