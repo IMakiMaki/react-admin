@@ -2,14 +2,49 @@ import { Fn } from '@/types/common';
 import { RouteComponent } from '@/types/route';
 
 const PREFIX = 'REACT_ADMIN';
+
+const setLocalStorage = (key: string, data: unknown) => {
+  let storageData;
+  try {
+    storageData = JSON.stringify(data);
+  } catch {
+    const _data = String(data);
+    storageData = _data;
+  }
+  localStorage.setItem(key, storageData);
+};
+
+const getLocalStorage = (key: string) => {
+  let storageData;
+  if (!localStorage.getItem(key)) {
+    return null;
+  }
+  try {
+    storageData = JSON.parse(localStorage.getItem(key)!);
+  } catch {
+    storageData = localStorage.getItem(key);
+  }
+  return storageData;
+};
+
 const TOKEN_KEY = `${PREFIX}_TOKEN`;
 
 export const setToken = (token: string) => {
-  localStorage.setItem(TOKEN_KEY, token);
+  setLocalStorage(TOKEN_KEY, token);
 };
 
 export const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
+  return getLocalStorage(TOKEN_KEY);
+};
+
+const USER_INFO_KEY = `${PREFIX}_TOKEN`;
+
+export const setUserInfo = (userInfo: Record<string, string>) => {
+  setLocalStorage(USER_INFO_KEY, userInfo);
+};
+
+export const getUserInfo = () => {
+  return getLocalStorage(USER_INFO_KEY);
 };
 
 // 判断是否为React.lazy加载的组件

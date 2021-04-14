@@ -35,26 +35,24 @@ export const GuardsWrapper = (config: Config) => {
         config.guards.map((guardSymbol) => {
           return Guards.find((guard) => {
             return guard.default.type === guardSymbol;
-          })?.default.check(config);
+          })!.default.check(config);
         })
       ).then((res) => {
         /**
-          过滤掉没有查找到的guard：实际上不会有Array.prototype.find=>undefined的类型 但是为了IDE提示正确 filter一遍
           路由守卫的判断结果有以下几种可能
           1)所有守卫都未通过 或 一部分通过一部分未通过 -> 加载第一个未通过的守卫的stayBack
           2)所有守卫都通过 -> 加载最后一个守卫的allClear
         */
-        const GuardsResList = res.filter((res) => res !== undefined);
-        const CalcGuardsRes = GuardsResList.reduce<{
+        const CalcGuardsRes = res.reduce<{
           passFlag: boolean[];
           component: Array<RouteGuard['stayBack'] | RouteGuard['allClear']>;
         }>(
           (result, guardRes) => {
             return {
-              passFlag: [...result.passFlag, guardRes?.pass || false],
+              passFlag: [...result.passFlag, guardRes.pass || false],
               component: [
                 ...result.component,
-                guardRes?.pass ? guardRes.allClear : guardRes?.stayBack,
+                guardRes.pass ? guardRes.allClear : guardRes.stayBack,
               ],
             };
           },

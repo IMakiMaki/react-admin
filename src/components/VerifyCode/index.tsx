@@ -1,11 +1,15 @@
 import { UserService } from '@/api/user';
 import { useDebounce } from '@/hooks/useDebounce';
+import { EventEmitter } from '@/hooks/useEventEmitter';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
-export const VerifyCode: React.FC<{ width?: number; height?: number; userName: string }> = (
-  props
-) => {
+export const VerifyCode: React.FC<{
+  width?: number;
+  height?: number;
+  userName: string;
+  eventEmitter: EventEmitter<string>;
+}> = (props) => {
   const [img, setImg] = useState('');
   const refreshImgFunc = useDebounce(() => {
     UserService.authImage({ userName: props.userName, t: Date.now() }).then((res) => {
@@ -15,6 +19,10 @@ export const VerifyCode: React.FC<{ width?: number; height?: number; userName: s
         )}`
       );
     });
+  });
+
+  props.eventEmitter.useSubscription(() => {
+    refreshImgFunc();
   });
 
   useEffect(() => {

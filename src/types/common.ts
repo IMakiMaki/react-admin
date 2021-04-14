@@ -3,3 +3,5 @@ export interface requireContextModule<T> {
 }
 
 export type Fn = (...args: any) => any;
+
+export type Func<T, R = void> = (data: T) => R;
