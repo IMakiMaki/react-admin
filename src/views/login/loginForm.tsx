@@ -1,6 +1,8 @@
 import { UserService } from '@/api/user';
 import { VerifyCode } from '@/components/VerifyCode';
-import { useEventEmitter } from '@/hooks/useEventEmittter';
+import { useEventEmitter } from '@/hooks/useEventEmitter';
+import { useRouter } from '@/hooks/useRouter';
+import { setToken } from '@/util';
 import { CheckCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -22,6 +24,7 @@ const INIT_VALUES: LoginParams = {
 export const LoginForm: React.FC = () => {
   const [form] = Form.useForm<LoginParams>();
   const [userName, setUserName] = useState(INIT_VALUES.userName);
+  const router = useRouter();
 
   const onFinish = (values: LoginParams) => {
     UserService.login({
@@ -29,7 +32,8 @@ export const LoginForm: React.FC = () => {
       accountType: '0',
     })
       .then((res) => {
-        console.log(res);
+        setToken(res.data.token);
+        router.push('/index');
       })
       .catch(() => {
         verifyCode$.emit('reload VerifyCode');
@@ -38,9 +42,6 @@ export const LoginForm: React.FC = () => {
   };
 
   const verifyCode$ = useEventEmitter<string>();
-  verifyCode$.useSubscription(() => {
-    console.log('check');
-  });
 
   const onFinishFailed = (errorInfo: ValidateErrorEntity<LoginParams>) => {
     console.log('Failed:', errorInfo);

@@ -1,6 +1,6 @@
 import { UserService } from '@/api/user';
 import { useDebounce } from '@/hooks/useDebounce';
-import { EventEmitter } from '@/hooks/useEventEmittter';
+import { EventEmitter } from '@/hooks/useEventEmitter';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
