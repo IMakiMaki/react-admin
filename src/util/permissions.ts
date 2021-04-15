@@ -1,5 +1,5 @@
-import { getToken } from '.';
+import { storageUtil } from './storage';
 
 export const doesUserHaveJWT = () => {
-  return getToken() !== null;
+  return storageUtil.getToken() !== null;
 };

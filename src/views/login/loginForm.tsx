@@ -2,7 +2,7 @@ import { UserService } from '@/api/user';
 import { VerifyCode } from '@/components/VerifyCode';
 import { useEventEmitter } from '@/hooks/useEventEmitter';
 import { useRouter } from '@/hooks/useRouter';
-import { setToken } from '@/util';
+import { storageUtil } from '@/util/storage';
 import { CheckCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -32,7 +32,7 @@ export const LoginForm: React.FC = () => {
       accountType: '0',
     })
       .then((res) => {
-        setToken(res.data.token);
+        storageUtil.setToken(res.data.token);
         router.push('/index');
       })
       .catch(() => {
