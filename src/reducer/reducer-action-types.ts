@@ -10,12 +10,15 @@ type ActionKey<T> = keyof ActionMap<T>;
 // 导出action对应的类型
 export type Action<T> = ActionMap<T>[ActionKey<T>];
 
-const data = {
-  a: 1,
-  b: '2',
-  c: { type: 'c' },
-};
+/**
+ * @example 用法示意
+ */
+// const data = {
+//   a: 1,
+//   b: '2',
+//   c: { type: 'c' },
+// };
 
-function set(action: Action<typeof data>) {}
+// function set(action: Action<typeof data>) {}
 
-set({ type: 'a', payload: 2 });
+// set({ type: 'a', payload: 2 });

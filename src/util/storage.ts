@@ -1,4 +1,4 @@
-import { Key } from 'react';
+import { UnionToIntersection } from '@/types/common';
 import { Singleton } from './singleton';
 
 const PREFIX = 'REACT_ADMIN_';
@@ -14,12 +14,6 @@ type D2P<T extends { [key: string]: any }> = {
 }[keyof T];
 
 type setP<T> = T extends { type: infer X; payload: infer Y } ? (type: X, value: Y) => void : never;
-
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
-  ? I
-  : never;
 
 type SetF = UnionToIntersection<setP<D2P<DATA_TYPE>>>;
 
@@ -38,7 +32,7 @@ class Storage extends Singleton {
       const _data = String(value);
       storageData = _data;
     }
-    localStorage.setItem(type, storageData);
+    localStorage.setItem(STORAGE_KEY_MAP.get(type)!, storageData);
   };
   private getLocalStorage<T extends keyof DATA_TYPE>(key: T): DATA_TYPE[T] | null {
     let storageData;
@@ -52,9 +46,12 @@ class Storage extends Singleton {
     }
     return (storageData as unknown) as DATA_TYPE[T];
   }
-  get token() {
+  getToken() {
     return this.getLocalStorage('token');
+  }
+  setToken(token: string) {
+    this.setLocalStorage('token', token);
   }
 }
 
-export default Storage.getSingletonInstance<Storage>();
+export const storageUtil = Storage.getSingletonInstance<Storage>();

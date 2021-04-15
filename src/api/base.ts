@@ -1,8 +1,8 @@
 import { ServiceConstructorConfig } from '@/types/service';
 import { Singleton } from '@/util/singleton';
+import { storageUtil } from '@/util/storage';
 import { message } from 'antd';
 import axios, { AxiosRequestConfig } from 'axios';
-import { getToken } from '../util';
 import { DtoSuccessResponse } from './dto/common.dto';
 export class RequestBase extends Singleton {
   // create an axios instance
@@ -18,7 +18,7 @@ export class RequestBase extends Singleton {
     // request interceptor
     this.reqBase.interceptors.request.use(
       (config) => {
-        const token = getToken();
+        const token = storageUtil.getToken();
         if (token) {
           config.headers['token'] = `${token}`;
         }

@@ -27,16 +27,6 @@ const getLocalStorage = (key: string) => {
   return storageData;
 };
 
-const TOKEN_KEY = `${PREFIX}_TOKEN`;
-
-export const setToken = (token: string) => {
-  setLocalStorage(TOKEN_KEY, token);
-};
-
-export const getToken = () => {
-  return getLocalStorage(TOKEN_KEY);
-};
-
 const USER_INFO_KEY = `${PREFIX}_TOKEN`;
 
 export const setUserInfo = (userInfo: Record<string, string>) => {
@@ -67,4 +57,31 @@ export const debounce = <T extends Fn>(delay: number, callback: T) => {
       callback(...args);
     }, delay);
   };
+};
+
+/**
+ * 深拷贝
+ * @param data
+ */
+export const deepClone = <T extends unknown>(data: T): T => {
+  function clone(val: any): any {
+    let _data: any;
+    if (typeof val === 'object') {
+      if (Array.isArray(val)) {
+        _data = [];
+        for (let index = 0; index < val.length; index++) {
+          _data.push(clone(val[index]));
+        }
+      } else {
+        _data = {};
+        for (let key of val) {
+          _data[key] = clone(val[key]);
+        }
+      }
+    } else {
+      _data = val;
+    }
+    return _data;
+  }
+  return clone(data);
 };
