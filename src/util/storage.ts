@@ -64,11 +64,15 @@ class Storage extends Singleton implements SetFunc<DATA_TYPE>, GetFunc<DATA_TYPE
     }
     return (storageData as unknown) as DATA_TYPE[T];
   }
-  setUserInfo() {}
+  setUserInfo(userInfo: DATA_TYPE['userInfo']) {
+    this.setLocalStorage('userInfo', userInfo);
+  }
   getUserInfo() {
     return this.getLocalStorage('userInfo');
   }
-  setPermissions() {}
+  setPermissions(permissions: DATA_TYPE['permissions']) {
+    this.setLocalStorage('permissions', permissions);
+  }
   getPermissions() {
     return this.getLocalStorage('permissions');
   }

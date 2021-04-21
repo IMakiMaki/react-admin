@@ -64,24 +64,28 @@ export const debounce = <T extends Fn>(delay: number, callback: T) => {
  * @param data
  */
 export const deepClone = <T extends unknown>(data: T): T => {
-  function clone(val: any): any {
-    let _data: any;
-    if (typeof val === 'object') {
-      if (Array.isArray(val)) {
-        _data = [];
-        for (let index = 0; index < val.length; index++) {
-          _data.push(clone(val[index]));
+  function clone<S extends unknown>(_data: S): S {
+    const type = typeof _data;
+    if (type === 'object') {
+      if (Array.isArray(_data)) {
+        let temp: unknown[] = [];
+        for (let index = 0; index < _data.length; index++) {
+          temp = [...temp, clone(_data[index])];
         }
+        return temp as S;
       } else {
-        _data = {};
-        for (let key of val) {
-          _data[key] = clone(val[key]);
+        let temp = {};
+        for (let key in _data) {
+          temp = {
+            ...temp,
+            [key]: clone(_data[key]),
+          };
         }
+        return temp as S;
       }
     } else {
-      _data = val;
+      return (_data as unknown) as S;
     }
-    return _data;
   }
-  return clone(data);
+  return clone<T>(data);
 };
