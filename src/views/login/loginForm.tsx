@@ -33,7 +33,8 @@ export const LoginForm: React.FC = () => {
     })
       .then((res) => {
         storageUtil.setToken(res.data.token);
-        // storageUtil
+        storageUtil.setPermissions(res.data.permission);
+        storageUtil.setUserInfo(res.data.user);
         router.push('/index');
       })
       .catch(() => {
