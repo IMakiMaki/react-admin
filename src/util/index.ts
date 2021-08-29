@@ -89,3 +89,29 @@ export const deepClone = <T extends unknown>(data: T): T => {
   }
   return clone<T>(data);
 };
+
+/**
+ * 阶乘
+ * @param {number} num
+ * @returns {number}
+ */
+export const factorial = (num: number): number => {
+  function calc(_num: number): number {
+    if (_num === 1) {
+      return 1;
+    } else {
+      return _num * calc(_num - 1);
+    }
+  }
+  return calc(num);
+};
+
+export const howManyTimes = (steps: number): number => {
+  if (steps === 2) {
+    return 2;
+  }
+  if (steps <= 1) {
+    return 1;
+  }
+  return 2 * howManyTimes(steps - 2);
+};
